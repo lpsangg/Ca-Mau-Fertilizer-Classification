@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="logo">
+    <file>icon_logo.png</file>
+    <file>thumuc.png</file>
+    <file>Logo_ctuet.png</file>
+    <file>dam_cm.png</file>
+    <file>phan_bon_cm.png</file>
+  </qresource>
+</RCC>
