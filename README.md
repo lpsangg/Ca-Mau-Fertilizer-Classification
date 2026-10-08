@@ -26,7 +26,8 @@ pip install -r requirements.txt
 ```
 
 ### 2. Khởi chạy ứng dụng
-Chạy lệnh trực tiếp tại thư mục gốc:
+- **Cách 1 (Windows - Nhanh nhất):** Nhấp đúp chuột vào file `run.bat`
+- **Cách 2 (Dòng lệnh):** Chạy trực tiếp tại thư mục gốc:
 ```bash
 python run_app.py
 ```
@@ -46,6 +47,7 @@ Hệ thống đã tự động khởi tạo sẵn các tài khoản sau trong CS
 ## 📂 Cấu trúc dự án
 ```text
 Ca-Mau-Fertilizer-Classification/
+├── run.bat                    # Script khởi chạy nhanh trên Windows (1-click)
 ├── run_app.py                 # Điểm khởi chạy chính của ứng dụng
 ├── requirements.txt           # Danh mục thư viện phụ thuộc
 ├── data/                      # Lưu trữ cơ sở dữ liệu SQLite (fertilizer.db)
