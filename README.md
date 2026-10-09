@@ -1,19 +1,24 @@
 # Ca-Mau-Fertilizer-Classification
 [Project Overview Website](https://lpsangg.github.io/lpsang/template/project/project-ferterlizer-classification.html)
 
-Hệ thống thị giác máy tính nhận diện, phân loại và đếm tự động bao bì Phân bón Cà Mau theo thời gian thực sử dụng **YOLOv8** và **ByteTrack**, kết hợp giao diện máy tính **PyQt5** và cơ sở dữ liệu **SQLite**.
+Hệ thống thị giác máy tính nhận diện, phân loại và đếm tự động bao bì Phân bón Cà Mau theo thời gian thực sử dụng **YOLOv8** và **ByteTrack**, tích hợp giao diện hiện đại **Modern Industrial Web Dashboard (FastAPI + PyWebView)** và phiên bản **PyQt5 Desktop**, lưu trữ cơ sở dữ liệu **SQLite**.
 
 ---
 
-## 🌟 Tính năng nổi bật (Phiên bản mới)
-- **Kiến trúc phân tầng chuẩn (Layered Architecture):** Tách bạch rõ ràng giữa Giao diện (UI), Đa luồng (Workers), Trí tuệ nhân tạo (AI Engine) và Cơ sở dữ liệu (Core).
-- **Bộ theo dõi ByteTrack hiện đại:** Đồng bộ chính xác 100% giữa mã định danh (Track ID) và loại sản phẩm (Class Name), khắc phục hoàn toàn hiện tượng gán nhầm nhãn.
-- **Đếm vector có hướng (Directional Line Crossing):** Đếm chính xác bao phân khi di chuyển qua vạch ảo, chống đếm sót khi frame nhảy cóc.
-- **Đa luồng không nghẽn giao diện (QThread):** Xử lý luồng video và mô hình AI trên luồng riêng, giao diện luôn đạt 60 FPS mượt mà.
-- **Cơ sở dữ liệu SQLite (Zero-Config):** Cài là chạy ngay, không cần cài đặt hay cấu hình máy chủ MySQL.
-- **Bảo mật mật khẩu:** Băm mật khẩu người dùng bằng thuật toán SHA-256 kèm Salt ngẫu nhiên.
-- **Đồng bộ Đơn hàng & Bộ đếm:** Cho phép chọn đơn hàng từ giỏ, đặt mục tiêu số lượng và tự động bật thông báo khi băng chuyền đếm đủ hàng.
-- **Xuất báo cáo Excel:** Tự động tổng hợp số liệu và xuất ra file `.xlsx` theo thời gian thực.
+## 🌟 Tính năng nổi bật
+
+### 1. Modern Web & Desktop Dashboard (Công nghệ mới nhất)
+- **Giao diện Cyber Industrial Dark Mode:** Thiết kế đẳng cấp trung tâm điều hành nhà máy thông minh, kính mờ (Glassmorphism), mượt mà 60-120 FPS.
+- **Biểu đồ thời gian thực (ApexCharts):** Theo dõi tốc độ băng tải (Bao / Phút) và phân bố tỷ lệ từng dòng sản phẩm với hiệu ứng gradient sóng thời gian thực.
+- **Tùy biến Vạch đếm ảo:** Hỗ trợ linh hoạt cả **Băng chuyền Dọc (vạch ngang)** lẫn **Băng chuyền Ngang (vạch dọc)** với thanh trượt tinh chỉnh tọa độ trực tiếp.
+- **Đa nền tảng (Desktop & Web/LAN):** Chạy như phần mềm Desktop độc lập (nhờ Microsoft Edge WebView2) hoặc mở từ máy tính bảng/điện thoại của quản đốc trong mạng nội bộ nhà máy.
+- **Chuông âm thanh thông minh (Web Audio API):** Tự động phát âm báo chúc mừng khi đơn hàng đạt đủ số lượng mục tiêu.
+
+### 2. Kiến trúc & Xử lý AI lõi
+- **Kiến trúc phân tầng chuẩn (Layered Architecture):** Tách bạch giữa Backend (FastAPI), Giao diện (Web/PyWebView/Qt), AI Engine (YOLOv8 + ByteTrack) và CSDL (SQLite).
+- **Bộ theo dõi ByteTrack hiện đại:** Gắn chặt Track ID với Class Name, khắc phục hoàn toàn hiện tượng nhảy nhãn của thuật toán SORT cũ.
+- **Cơ sở dữ liệu SQLite (Zero-Config):** Cài là chạy ngay, không cần cấu hình MySQL/XAMPP. Mật khẩu băm an toàn với SHA-256 kèm Salt.
+- **Xuất báo cáo Excel 1-click:** Tự động kết xuất số liệu đếm và tốc độ băng chuyền ra file `.xlsx`.
 
 ---
 
@@ -26,42 +31,49 @@ pip install -r requirements.txt
 ```
 
 ### 2. Khởi chạy ứng dụng
-- **Cách 1 (Windows - Nhanh nhất):** Nhấp đúp chuột vào file `run.bat`
-- **Cách 2 (Dòng lệnh):** Chạy trực tiếp tại thư mục gốc:
+
+#### 🌟 Cách 1: Giao diện Modern Web-based Dashboard (Khuyên dùng)
+- **Khởi chạy nhanh trên Windows:** Nhấp đúp chuột vào file **`run_web.bat`**
+- **Hoặc chạy bằng dòng lệnh:**
 ```bash
-python run_app.py
+python run_web_app.py             # Mở cửa sổ Desktop App (PyWebView)
+python run_web_app.py --browser   # Mở trực tiếp trên Trình duyệt web
+python run_web_app.py --server    # Chạy làm máy chủ nội bộ cho máy tính bảng/LAN
 ```
 
-### 3. Tài khoản đăng nhập mặc định
-Hệ thống đã tự động khởi tạo sẵn các tài khoản sau trong CSDL SQLite:
-- **Tài khoản Quản trị viên (Admin):**
-  - Tên đăng nhập: `admin`
-  - Mật khẩu: `123456`
-- **Tài khoản Người vận hành (Operator / Tương thích phiên bản cũ):**
-  - Tên đăng nhập: `phanloaisp`
-  - Mật khẩu: `123`
-*(Bạn cũng có thể tự tạo tài khoản mới ngay trên màn hình Đăng ký của ứng dụng).*
+#### 📦 Cách 2: Giao diện PyQt5 truyền thống (Desktop cũ)
+- **Khởi chạy nhanh:** Nhấp đúp chuột vào file **`run.bat`**
+- **Dòng lệnh:** `python run_app.py`
 
 ---
 
 ## 📂 Cấu trúc dự án
 ```text
 Ca-Mau-Fertilizer-Classification/
-├── run.bat                    # Script khởi chạy nhanh trên Windows (1-click)
-├── run_app.py                 # Điểm khởi chạy chính của ứng dụng
+├── run_web.bat                # Khởi chạy Modern Web Dashboard (1-click)
+├── run_web_app.py             # Launcher Desktop App (FastAPI + PyWebView)
+├── run.bat                    # Khởi chạy giao diện PyQt5 cũ (1-click)
+├── run_app.py                 # Launcher giao diện PyQt5 cũ
 ├── requirements.txt           # Danh mục thư viện phụ thuộc
-├── data/                      # Lưu trữ cơ sở dữ liệu SQLite (fertilizer.db)
+├── data/                      # Cơ sở dữ liệu SQLite (fertilizer.db)
 ├── exports/                   # Thư mục lưu các file báo cáo Excel xuất ra
 ├── models/                    # Trọng số mô hình YOLOv8n (model_n.pt)
-├── docs/                      # Tài liệu kỹ thuật chi tiết
-│   └── TONG_QUAN_DU_AN.md     # Tài liệu kiến trúc và phân tích chuyên sâu
+├── assets/
+│   ├── videos/demo.mp4        # Video mẫu băng tải phân bón thực tế
+│   └── images/ & icons/       # Logo thương hiệu PVCFC, CTUET
+├── docs/                      # Tài liệu kiến trúc kỹ thuật
 └── src/
+    ├── web/                   # Module Modern Web-based Dashboard
+    │   ├── app.py             # FastAPI App Server
+    │   ├── api.py             # REST API routes (Stats, Orders, Video, Export)
+    │   ├── video_stream.py    # Bộ xử lý stream video & AI ByteTrack
+    │   └── static/            # Frontend SPA (HTML5, Tailwind CSS, ApexCharts, JS)
     ├── config.py              # Cấu hình tập trung đường dẫn tuyệt đối
     ├── core/                  # DatabaseManager (SQLite) & Security (SHA-256)
     ├── ai/                    # FertilizerTracker (YOLOv8 + ByteTrack)
-    ├── workers/               # VideoWorker (QThread chạy video ngầm)
-    ├── ui/                    # Các controller màn hình (Splash, Login, Order, Video)
-    └── utils/                 # Tệp nhãn class.txt và mã nguồn SORT cũ (đối chiếu)
+    ├── workers/               # VideoWorker đa luồng (QThread)
+    ├── ui/                    # Các controller giao diện PyQt5 cũ
+    └── utils/                 # Tệp nhãn class.txt và thuật toán SORT cũ đối chiếu
 ```
 
 ## 📖 Tài liệu kỹ thuật

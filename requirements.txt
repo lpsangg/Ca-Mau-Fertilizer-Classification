@@ -8,3 +8,6 @@ pandas>=2.0.0
 openpyxl>=3.1.0
 torch>=2.0.0
 torchvision>=0.15.0
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+pywebview>=5.0.0

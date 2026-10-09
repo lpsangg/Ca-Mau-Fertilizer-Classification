@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hệ Thống Phân Loại & Đếm Bao Phân Bón Cà Mau - AI Vision</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              500: '#10b981',
+              600: '#059669',
+              900: '#064e3b'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- ApexCharts CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+  <!-- Custom Cyber Theme -->
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="min-h-screen text-slate-100 flex flex-col justify-between">
+
+  <!-- TOP HEADER -->
+  <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 px-6 py-3">
+    <div class="max-w-[1720px] mx-auto flex items-center justify-between gap-4">
+      
+      <!-- Brand & Project Info -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-cyan-500 p-0.5 shadow-lg shadow-emerald-500/20">
+          <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
+            <i data-lucide="scan" class="w-5 h-5 text-emerald-400"></i>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base font-bold tracking-tight bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
+              PVCFC AI VISION SYSTEM
+            </h1>
+            <span class="px-2 py-0.5 text-[10px] font-semibold bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 live-dot"></span>
+              YOLOv8 + ByteTrack
+            </span>
+          </div>
+          <p class="text-xs text-slate-400">Hệ Thống Nhận Diện, Phân Loại & Đếm Bao Phân Bón Tự Động (CTUET &times; PVCFC)</p>
+        </div>
+      </div>
+
+      <!-- Center Status: Clock & Source -->
+      <div class="hidden md:flex items-center gap-6 px-4 py-1.5 rounded-xl bg-slate-900/80 border border-slate-800 text-xs">
+        <div class="flex items-center gap-2 text-slate-300">
+          <i data-lucide="clock" class="w-4 h-4 text-cyan-400"></i>
+          <span id="headerClock" class="font-mono font-medium">--:--:--</span>
+        </div>
+        <div class="h-3 w-px bg-slate-700"></div>
+        <div class="flex items-center gap-2">
+          <i data-lucide="video" class="w-4 h-4 text-emerald-400"></i>
+          <span class="text-slate-400">Nguồn:</span>
+          <span id="currentSourceBadge" class="font-semibold text-emerald-400">Băng chuyền demo</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center gap-2.5">
+        <!-- New Order Button -->
+        <button onclick="openModal('orderModal')" class="flex items-center gap-1.5 px-3.5 py-2 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white text-xs font-semibold rounded-lg shadow-lg shadow-emerald-600/25 transition">
+          <i data-lucide="plus-circle" class="w-4 h-4"></i>
+          <span>Tạo Đơn Hàng</span>
+        </button>
+
+        <!-- Source Modal Button -->
+        <button onclick="openModal('sourceModal')" class="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-medium rounded-lg transition">
+          <i data-lucide="camera" class="w-4 h-4 text-cyan-400"></i>
+          <span>Đổi Nguồn</span>
+        </button>
+
+        <!-- Line Config Button -->
+        <button onclick="openModal('lineModal')" class="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-medium rounded-lg transition">
+          <i data-lucide="sliders" class="w-4 h-4 text-amber-400"></i>
+          <span>Vạch Đếm</span>
+        </button>
+
+        <!-- Export Excel Button -->
+        <button onclick="exportExcelReport()" class="flex items-center gap-1.5 px-3.5 py-2 bg-slate-800 hover:bg-emerald-950/40 border border-slate-700 hover:border-emerald-500/50 text-emerald-400 text-xs font-medium rounded-lg transition shadow-sm">
+          <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+          <span>Xuất Excel</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="max-w-[1720px] mx-auto p-5 space-y-5 flex-1 w-full">
+
+    <!-- METRICS / KPI CARDS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <!-- Card 1: Total Counted -->
+      <div class="glass-panel p-4 flex flex-col justify-between border-l-4 border-l-cyan-500 relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Tổng Số Đã Đếm</span>
+          <div class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
+            <i data-lucide="package-check" class="w-4 h-4"></i>
+          </div>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span id="metricTotal" class="text-3xl font-extrabold font-mono text-cyan-400">0</span>
+          <span class="text-xs text-slate-400">bao</span>
+        </div>
+        <div class="mt-3 flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-slate-800/80">
+          <span>Tốc độ băng tải:</span>
+          <span id="metricSpeed" class="font-mono font-semibold text-emerald-400">0.0 bao/phút</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Urea Bio xanh -->
+      <div class="glass-panel p-4 flex flex-col justify-between border-l-4 border-l-emerald-500 relative">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase tracking-wider text-emerald-300">Urea Bio Xanh</span>
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+            <i data-lucide="leaf" class="w-4 h-4"></i>
+          </div>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span id="metricBio" class="text-3xl font-extrabold font-mono text-emerald-400">0</span>
+          <span id="targetBioText" class="text-xs text-slate-400">/ -- bao</span>
+        </div>
+        <div class="mt-3">
+          <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+            <div id="progBio" class="bg-emerald-500 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: NPK 22-5-6 -->
+      <div class="glass-panel p-4 flex flex-col justify-between border-l-4 border-l-amber-500 relative">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase tracking-wider text-amber-300">NPK 22-5-6</span>
+          <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center">
+            <i data-lucide="flask-conical" class="w-4 h-4"></i>
+          </div>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span id="metricNPK" class="text-3xl font-extrabold font-mono text-amber-400">0</span>
+          <span id="targetNPKText" class="text-xs text-slate-400">/ -- bao</span>
+        </div>
+        <div class="mt-3">
+          <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+            <div id="progNPK" class="bg-amber-500 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Urea hạt đục -->
+      <div class="glass-panel p-4 flex flex-col justify-between border-l-4 border-l-purple-500 relative">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-semibold uppercase tracking-wider text-purple-300">Urea Hạt Đục</span>
+          <div class="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center">
+            <i data-lucide="layers" class="w-4 h-4"></i>
+          </div>
+        </div>
+        <div class="mt-2 flex items-baseline gap-2">
+          <span id="metricDuc" class="text-3xl font-extrabold font-mono text-purple-400">0</span>
+          <span id="targetDucText" class="text-xs text-slate-400">/ -- bao</span>
+        </div>
+        <div class="mt-3">
+          <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+            <div id="progDuc" class="bg-purple-500 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MAIN GRID: Left (Video & Active Order) & Right (Analytics & Orders) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+      
+      <!-- LEFT COLUMN: Live Video Viewport (7 Cols) -->
+      <div class="lg:col-span-7 flex flex-col gap-4">
+        
+        <!-- Video Viewport Card -->
+        <div class="glass-panel p-3.5 flex flex-col gap-3">
+          
+          <div class="flex items-center justify-between px-1">
+            <div class="flex items-center gap-2">
+              <span class="flex h-2.5 w-2.5 relative">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+              </span>
+              <span class="text-xs font-bold text-slate-200">LUỒNG GIÁM SÁT BĂNG CHUYỀN THỜI GIAN THỰC</span>
+            </div>
+            <div class="flex items-center gap-3 text-[11px] text-slate-400 font-mono">
+              <span id="streamFpsBadge" class="text-emerald-400 font-semibold">FPS: 0.0</span>
+              <span class="h-3 w-px bg-slate-700"></span>
+              <span id="streamResBadge">640&times;480</span>
+            </div>
+          </div>
+
+          <!-- The Video Screen -->
+          <div class="video-viewport w-full aspect-[16/9] flex items-center justify-center bg-black relative group">
+            <img id="liveFeedImg" src="/api/video_feed" alt="Live AI Camera Feed" class="w-full h-full object-contain">
+            
+            <!-- Pause Overlay -->
+            <div id="pausedOverlay" class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm hidden flex-col items-center justify-center gap-2 z-10">
+              <i data-lucide="pause-circle" class="w-12 h-12 text-amber-400 animate-pulse"></i>
+              <span class="text-sm font-semibold text-slate-200">BĂNG CHUYỀN TẠM DỪNG GIÁM SÁT</span>
+              <span class="text-xs text-slate-400">Bấm nút Tiếp tục để tiếp tục quá trình đếm</span>
+            </div>
+          </div>
+
+          <!-- Video Controls Toolbar -->
+          <div class="flex items-center justify-between pt-1 px-1">
+            <div class="flex items-center gap-2">
+              <!-- Play/Pause Toggle -->
+              <button id="btnPause" onclick="togglePauseVideo()" class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-medium rounded-lg text-slate-200 transition">
+                <i id="btnPauseIcon" data-lucide="pause" class="w-3.5 h-3.5 text-amber-400"></i>
+                <span id="btnPauseText">Tạm dừng</span>
+              </button>
+
+              <!-- Reset Counter -->
+              <button onclick="resetCounters()" class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-rose-950/40 border border-slate-700 hover:border-rose-500/50 text-xs font-medium rounded-lg text-rose-400 transition">
+                <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                <span>Đặt lại số đếm</span>
+              </button>
+            </div>
+
+            <!-- Quick line orientation badge -->
+            <div class="flex items-center gap-2 text-xs text-slate-400">
+              <span class="hidden sm:inline">Vạch đếm:</span>
+              <span id="activeLineBadge" class="font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-800/50 px-2 py-0.5 rounded text-[11px]">
+                Ngang (Y=310)
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Active Target Order Banner -->
+        <div class="glass-panel p-4 flex flex-col gap-3 border-l-4 border-l-emerald-500">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i data-lucide="shopping-cart" class="w-4 h-4 text-emerald-400"></i>
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Đơn Hàng Mục Tiêu Đang Giám Sát</span>
+            </div>
+            <span id="orderStatusBadge" class="px-2.5 py-0.5 text-[11px] font-semibold rounded-full bg-slate-800 text-slate-400 border border-slate-700">
+              Chưa chọn đơn
+            </span>
+          </div>
+
+          <div class="flex items-baseline justify-between">
+            <h3 id="activeCustomerName" class="text-base font-semibold text-slate-100">
+              Chưa gán đơn hàng mục tiêu
+            </h3>
+            <span id="orderPercentText" class="text-lg font-bold font-mono text-emerald-400">0%</span>
+          </div>
+
+          <!-- Large Progress Bar -->
+          <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+            <div id="orderTotalProgressBar" class="bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+
+          <div id="targetSummaryItems" class="flex flex-wrap gap-2 text-xs text-slate-400">
+            <span>Chọn một đơn hàng từ danh sách bên phải để kích hoạt đếm theo chỉ tiêu.</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT COLUMN: Analytics, Charts & Orders (5 Cols) -->
+      <div class="lg:col-span-5 flex flex-col gap-4">
+        
+        <!-- Real-time Throughput Chart -->
+        <div class="glass-panel p-4 flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i data-lucide="activity" class="w-4 h-4 text-emerald-400"></i>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Tốc Độ Băng Tải Thời Gian Thực (Bao / Phút)</h3>
+            </div>
+            <span class="text-[11px] font-mono text-emerald-400 font-semibold" id="chartSpeedBadge">0 bao/phút</span>
+          </div>
+          <div id="throughputChart" class="h-44 w-full"></div>
+        </div>
+
+        <!-- Product Distribution Breakdown Chart -->
+        <div class="glass-panel p-4 flex flex-col gap-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i data-lucide="pie-chart" class="w-4 h-4 text-cyan-400"></i>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Tỷ Lệ Phân Loại Sản Phẩm</h3>
+            </div>
+          </div>
+          <div id="distributionChart" class="h-44 w-full"></div>
+        </div>
+
+        <!-- Order Management Table -->
+        <div class="glass-panel p-4 flex flex-col gap-3 flex-1">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <i data-lucide="clipboard-list" class="w-4 h-4 text-purple-400"></i>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Danh Sách Đơn Hàng (SQLite)</h3>
+            </div>
+            <button onclick="fetchOrders()" class="text-slate-400 hover:text-slate-200 text-xs flex items-center gap-1 transition">
+              <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+              <span>Làm mới</span>
+            </button>
+          </div>
+
+          <div class="overflow-y-auto max-h-56 pr-1">
+            <table class="w-full text-left text-xs">
+              <thead class="text-[11px] text-slate-400 border-b border-slate-800 uppercase font-semibold">
+                <tr>
+                  <th class="py-2">Khách Hàng</th>
+                  <th class="py-2">Yêu Cầu</th>
+                  <th class="py-2 text-right">Thao Tác</th>
+                </tr>
+              </thead>
+              <tbody id="orderTableBody" class="divide-y divide-slate-800/60 font-medium">
+                <tr>
+                  <td colspan="3" class="py-4 text-center text-slate-500">Đang tải dữ liệu đơn hàng...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-800/80 bg-slate-950/60 text-slate-500 text-xs px-6 py-3 mt-4">
+    <div class="max-w-[1720px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>&copy; 2026 PVCFC &times; CTUET - Ca Mau Fertilizer Classification and Tracking System (Modern Web Edition).</p>
+      <div class="flex items-center gap-4 text-[11px]">
+        <span>YOLOv8 ByteTrack Engine</span>
+        <span>&bull;</span>
+        <span>FastAPI + SQLite</span>
+        <span>&bull;</span>
+        <span>PyWebView Desktop</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- Modal 1: Create Order Modal -->
+  <div id="orderModal" class="fixed inset-0 modal-backdrop hidden flex items-center justify-center p-4 z-50">
+    <div class="glass-panel bg-slate-900 border border-slate-700 w-full max-w-md p-6 rounded-2xl shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+          <i data-lucide="plus-circle" class="w-5 h-5 text-emerald-400"></i>
+          <span>Tạo Đơn Hàng Mới</span>
+        </h3>
+        <button onclick="closeModal('orderModal')" class="text-slate-400 hover:text-slate-200">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-300 font-medium mb-1">Tên khách hàng / Đại lý:</label>
+          <input id="inputCustName" type="text" placeholder="VD: Đại lý Phân Bón Miền Tây" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-emerald-500">
+        </div>
+
+        <div class="space-y-2 pt-2 border-t border-slate-800">
+          <p class="font-semibold text-slate-300">Số lượng mục tiêu từng loại (bao):</p>
+          
+          <div class="flex items-center justify-between">
+            <span class="text-emerald-400 font-medium">Urea Bio xanh:</span>
+            <input id="inputQtyBio" type="number" min="0" value="50" class="w-24 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-right text-slate-100 font-mono focus:outline-none focus:border-emerald-500">
+          </div>
+
+          <div class="flex items-center justify-between">
+            <span class="text-amber-400 font-medium">NPK 22-5-6:</span>
+            <input id="inputQtyNPK" type="number" min="0" value="30" class="w-24 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-right text-slate-100 font-mono focus:outline-none focus:border-amber-500">
+          </div>
+
+          <div class="flex items-center justify-between">
+            <span class="text-purple-400 font-medium">Urea hạt đục:</span>
+            <input id="inputQtyDuc" type="number" min="0" value="20" class="w-24 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-right text-slate-100 font-mono focus:outline-none focus:border-purple-500">
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-800">
+        <button onclick="closeModal('orderModal')" class="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-300 transition">
+          Hủy
+        </button>
+        <button onclick="submitNewOrder()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold text-white shadow-lg shadow-emerald-600/30 transition">
+          Lưu Đơn Hàng
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Change Video Source Modal -->
+  <div id="sourceModal" class="fixed inset-0 modal-backdrop hidden flex items-center justify-center p-4 z-50">
+    <div class="glass-panel bg-slate-900 border border-slate-700 w-full max-w-md p-6 rounded-2xl shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+          <i data-lucide="video" class="w-5 h-5 text-cyan-400"></i>
+          <span>Chọn Nguồn Video / Camera</span>
+        </h3>
+        <button onclick="closeModal('sourceModal')" class="text-slate-400 hover:text-slate-200">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <p class="text-slate-400">Chọn nguồn giám sát cho hệ thống AI:</p>
+
+        <!-- Sample Videos in assets/videos -->
+        <div class="space-y-2">
+          <p class="font-semibold text-slate-300">Video mẫu có sẵn:</p>
+          <div id="sampleVideoList" class="space-y-1.5">
+            <!-- Populated via JS -->
+          </div>
+        </div>
+
+        <div class="pt-2 border-t border-slate-800 space-y-2">
+          <p class="font-semibold text-slate-300">Hoặc chọn Webcam / Camera trực tiếp:</p>
+          <button onclick="selectSource('0')" class="w-full text-left px-3 py-2 bg-slate-950 hover:bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-between transition">
+            <span class="font-medium text-slate-200">Webcam / Camera cổng USB #0</span>
+            <span class="text-[10px] bg-slate-800 text-cyan-400 px-2 py-0.5 rounded">Live Device</span>
+          </button>
+        </div>
+
+        <div class="pt-2 border-t border-slate-800 space-y-1.5">
+          <label class="block font-semibold text-slate-300">Đường dẫn file video hoặc luồng RTSP:</label>
+          <div class="flex gap-2">
+            <input id="inputCustomSource" type="text" placeholder="D:\video.mp4 hoặc rtsp://..." class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-xs focus:outline-none focus:border-cyan-500">
+            <button onclick="selectCustomSource()" class="px-3 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-semibold">
+              Áp dụng
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Counting Line Configuration Modal -->
+  <div id="lineModal" class="fixed inset-0 modal-backdrop hidden flex items-center justify-center p-4 z-50">
+    <div class="glass-panel bg-slate-900 border border-slate-700 w-full max-w-md p-6 rounded-2xl shadow-2xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
+          <i data-lucide="sliders" class="w-5 h-5 text-amber-400"></i>
+          <span>Cấu Hình Vạch Đếm Ảo</span>
+        </h3>
+        <button onclick="closeModal('lineModal')" class="text-slate-400 hover:text-slate-200">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="block text-slate-300 font-medium mb-1">Hướng chuyển động của bao trên băng chuyền:</label>
+          <div class="grid grid-cols-2 gap-2">
+            <button id="btnLineHoriz" onclick="setLineOrientation('horizontal')" class="px-3 py-2 rounded-lg border border-emerald-500 bg-emerald-500/10 text-emerald-400 font-semibold flex items-center justify-center gap-1.5">
+              <span>Băng chuyền Dọc (Vạch Ngang)</span>
+            </button>
+            <button id="btnLineVert" onclick="setLineOrientation('vertical')" class="px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-400 font-semibold flex items-center justify-center gap-1.5">
+              <span>Băng chuyền Ngang (Vạch Dọc)</span>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-slate-300 font-medium">Vị trí toạ độ vạch đếm:</span>
+            <span id="lineCoordDisplay" class="font-mono text-cyan-400 font-bold">310 px</span>
+          </div>
+          <input id="lineCoordSlider" type="range" min="50" max="600" value="310" oninput="updateLineSlider(this.value)" class="w-full accent-cyan-400">
+        </div>
+      </div>
+
+      <div class="flex justify-end pt-3 border-t border-slate-800">
+        <button onclick="applyLineConfig()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold shadow-lg shadow-emerald-600/30 transition">
+          Lưu Cấu Hình
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
+
+  <!-- Main JavaScript App -->
+  <script src="/static/app.js"></script>
+</body>
+</html>
