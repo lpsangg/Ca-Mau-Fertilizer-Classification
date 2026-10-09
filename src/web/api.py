@@ -220,3 +220,18 @@ def export_excel():
         filename=file_name,
         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     )
+
+
+@router.get("/model_report_pdf")
+def download_model_report_pdf():
+    """Download technical PDF report for YOLOv8 model."""
+    pdf_path = BASE_DIR / "docs" / "BAO_CAO_CHI_TIET_MO_HINH_AI_YOLOV8.pdf"
+    if not pdf_path.exists():
+        pdf_path = BASE_DIR / "BAO_CAO_CHI_TIET_MO_HINH_AI_YOLOV8.pdf"
+    if not pdf_path.exists():
+        raise HTTPException(status_code=404, detail="Báo cáo PDF chưa được tạo.")
+    return FileResponse(
+        path=str(pdf_path),
+        filename="BAO_CAO_CHI_TIET_MO_HINH_AI_YOLOV8.pdf",
+        media_type="application/pdf",
+    )
