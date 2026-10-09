@@ -31,22 +31,34 @@
   <!-- ApexCharts CDN -->
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/assets/images/icon_logo.png">
+
   <!-- Custom Cyber Theme -->
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body class="min-h-screen text-slate-100 flex flex-col justify-between">
 
   <!-- TOP HEADER -->
-  <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 px-6 py-3">
+  <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 px-6 py-2.5">
     <div class="max-w-[1720px] mx-auto flex items-center justify-between gap-4">
       
-      <!-- Brand & Project Info -->
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-cyan-500 p-0.5 shadow-lg shadow-emerald-500/20">
-          <div class="w-full h-full bg-slate-900 rounded-[10px] flex items-center justify-center">
-            <i data-lucide="scan" class="w-5 h-5 text-emerald-400"></i>
+      <!-- Brand & Logos -->
+      <div class="flex items-center gap-3.5">
+        <!-- Brand Logos Container -->
+        <div class="flex items-center gap-2">
+          <!-- PVCFC Logo -->
+          <div class="h-10 px-2.5 py-1 bg-white/95 rounded-xl shadow-md flex items-center justify-center border border-emerald-500/30 hover:border-emerald-500 transition">
+            <img src="/assets/images/phan_bon_cm.png" alt="Logo Phân Bón Cà Mau" class="h-7 w-auto object-contain">
+          </div>
+          <!-- CTUET Logo -->
+          <div class="h-10 px-2 py-1 bg-white/95 rounded-xl shadow-md flex items-center justify-center border border-cyan-500/30 hover:border-cyan-500 transition">
+            <img src="/assets/images/logo_ctuet.png" alt="Logo CTUET" class="h-7 w-auto object-contain">
           </div>
         </div>
+
+        <div class="h-8 w-px bg-slate-800 hidden sm:block"></div>
+
         <div>
           <div class="flex items-center gap-2">
             <h1 class="text-base font-bold tracking-tight bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
@@ -57,7 +69,7 @@
               YOLOv8 + ByteTrack
             </span>
           </div>
-          <p class="text-xs text-slate-400">Hệ Thống Nhận Diện, Phân Loại & Đếm Bao Phân Bón Tự Động (CTUET &times; PVCFC)</p>
+          <p class="text-xs text-slate-400">Hệ Thống Phân Loại & Đếm Bao Phân Bón Tự Động &bull; CTUET &times; Phân Bón Cà Mau</p>
         </div>
       </div>
 
@@ -252,31 +264,39 @@
         </div>
 
         <!-- Active Target Order Banner -->
-        <div class="glass-panel p-4 flex flex-col gap-3 border-l-4 border-l-emerald-500">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <i data-lucide="shopping-cart" class="w-4 h-4 text-emerald-400"></i>
-              <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Đơn Hàng Mục Tiêu Đang Giám Sát</span>
+        <div class="glass-panel p-4 flex gap-4 border-l-4 border-l-emerald-500 items-center">
+          <!-- Fertilizer Bag Image Thumbnail -->
+          <div class="hidden sm:flex flex-col items-center justify-center p-2 rounded-xl bg-slate-950/70 border border-slate-800 w-20 flex-shrink-0 shadow-inner">
+            <img src="/assets/images/dam_cm.png" alt="Bao Phân Bón Cà Mau" class="h-16 w-auto object-contain drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)]">
+            <span class="text-[9px] text-emerald-400 font-mono mt-1 font-semibold">ĐẠM CÀ MAU</span>
+          </div>
+
+          <div class="flex-1 flex flex-col gap-2.5">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <i data-lucide="shopping-cart" class="w-4 h-4 text-emerald-400"></i>
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Đơn Hàng Mục Tiêu Đang Giám Sát</span>
+              </div>
+              <span id="orderStatusBadge" class="px-2.5 py-0.5 text-[11px] font-semibold rounded-full bg-slate-800 text-slate-400 border border-slate-700">
+                Chưa chọn đơn
+              </span>
             </div>
-            <span id="orderStatusBadge" class="px-2.5 py-0.5 text-[11px] font-semibold rounded-full bg-slate-800 text-slate-400 border border-slate-700">
-              Chưa chọn đơn
-            </span>
-          </div>
 
-          <div class="flex items-baseline justify-between">
-            <h3 id="activeCustomerName" class="text-base font-semibold text-slate-100">
-              Chưa gán đơn hàng mục tiêu
-            </h3>
-            <span id="orderPercentText" class="text-lg font-bold font-mono text-emerald-400">0%</span>
-          </div>
+            <div class="flex items-baseline justify-between">
+              <h3 id="activeCustomerName" class="text-base font-semibold text-slate-100">
+                Chưa gán đơn hàng mục tiêu
+              </h3>
+              <span id="orderPercentText" class="text-lg font-bold font-mono text-emerald-400">0%</span>
+            </div>
 
-          <!-- Large Progress Bar -->
-          <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
-            <div id="orderTotalProgressBar" class="bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
-          </div>
+            <!-- Large Progress Bar -->
+            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
+              <div id="orderTotalProgressBar" class="bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
 
-          <div id="targetSummaryItems" class="flex flex-wrap gap-2 text-xs text-slate-400">
-            <span>Chọn một đơn hàng từ danh sách bên phải để kích hoạt đếm theo chỉ tiêu.</span>
+            <div id="targetSummaryItems" class="flex flex-wrap gap-2 text-xs text-slate-400">
+              <span>Chọn một đơn hàng từ danh sách bên phải để kích hoạt đếm theo chỉ tiêu.</span>
+            </div>
           </div>
         </div>
 
@@ -346,15 +366,26 @@
   </main>
 
   <!-- FOOTER -->
-  <footer class="border-t border-slate-800/80 bg-slate-950/60 text-slate-500 text-xs px-6 py-3 mt-4">
-    <div class="max-w-[1720px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-      <p>&copy; 2026 PVCFC &times; CTUET - Ca Mau Fertilizer Classification and Tracking System (Modern Web Edition).</p>
-      <div class="flex items-center gap-4 text-[11px]">
-        <span>YOLOv8 ByteTrack Engine</span>
+  <footer class="border-t border-slate-800/80 bg-slate-950/80 text-slate-400 text-xs px-6 py-3.5 mt-4">
+    <div class="max-w-[1720px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <!-- Partner Logo Badges -->
+        <div class="flex items-center gap-2 bg-white/95 px-2 py-0.5 rounded-lg border border-slate-700 shadow-sm">
+          <img src="/assets/images/phan_bon_cm.png" alt="PVCFC" class="h-4 w-auto object-contain">
+          <span class="text-[10px] text-slate-800 font-bold">PVCFC</span>
+        </div>
+        <div class="flex items-center gap-2 bg-white/95 px-2 py-0.5 rounded-lg border border-slate-700 shadow-sm">
+          <img src="/assets/images/logo_ctuet.png" alt="CTUET" class="h-4 w-auto object-contain">
+          <span class="text-[10px] text-slate-800 font-bold">CTUET</span>
+        </div>
+        <p class="text-[11px] text-slate-400">Dự án Hợp tác Nghiên cứu & Ứng dụng Thị giác máy tính trong Nông nghiệp hiện đại.</p>
+      </div>
+      <div class="flex items-center gap-3 text-[11px] text-slate-500 font-mono">
+        <span>YOLOv8 &bull; ByteTrack</span>
         <span>&bull;</span>
-        <span>FastAPI + SQLite</span>
+        <span>FastAPI &bull; SQLite</span>
         <span>&bull;</span>
-        <span>PyWebView Desktop</span>
+        <span class="text-emerald-400 font-medium">Version 2.0 Web</span>
       </div>
     </div>
   </footer>
