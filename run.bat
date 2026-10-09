@@ -1,11 +1,11 @@
 @echo off
 cd /d "%~dp0"
 echo ======================================================================
-echo    KHOI CHAY HE THONG PHAN LOAI & DEM BAO PHAN BON CA MAU
+echo    KHOI CHAY HE THONG PHAN LOAI & DEM BAO PHAN BON CA MAU (WEB UI)
 echo ======================================================================
 if exist .venv\Scripts\python.exe (
-    .venv\Scripts\python.exe run_app.py
+    .venv\Scripts\python.exe main.py
 ) else (
-    python run_app.py
+    python main.py
 )
 pause

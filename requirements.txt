@@ -1,13 +1,12 @@
-# Ca Mau Fertilizer Classification & Tracking System Dependencies
+# Ca Mau Fertilizer Classification & Tracking System Dependencies (Web AI Edition)
 # Python >= 3.8, compatible with Python 3.12+
 
-PyQt5>=5.15.10
-opencv-python>=4.8.0
-ultralytics>=8.1.0
-pandas>=2.0.0
-openpyxl>=3.1.0
-torch>=2.0.0
-torchvision>=0.15.0
 fastapi>=0.100.0
 uvicorn[standard]>=0.23.0
-pywebview>=5.0.0
+opencv-python>=4.8.0
+ultralytics>=8.1.0
+torch>=2.0.0
+torchvision>=0.15.0
+pandas>=2.0.0
+openpyxl>=3.1.0
+lap>=0.5.12

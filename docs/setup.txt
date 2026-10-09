@@ -1,9 +1,0 @@
-ultralytics
-pandas
-opencv-python
-matplotlib
-scikit-image
-filterpy
-cvzone
-numpy
-mysqlclient
