@@ -1,23 +1,25 @@
 <!DOCTYPE html>
-<html lang="vi" class="dark">
+<html lang="vi">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hệ Thống Phân Loại & Đếm Bao Phân Bón Cà Mau - AI Vision</title>
+  <title>Hệ Thống Phân Loại & Đếm Bao Phân Bón Cà Mau - PVCFC AI Vision</title>
   
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
-      darkMode: 'class',
       theme: {
         extend: {
           colors: {
-            brand: {
-              50: '#ecfdf5',
-              500: '#10b981',
-              600: '#059669',
-              900: '#064e3b'
+            pvcfc: {
+              DEFAULT: '#006837',
+              dark: '#004d25',
+              light: '#00a651',
+              cream: '#fff9e6',
+              gold: '#f59e0b',
+              blue: '#0082c4',
+              red: '#ed1c24'
             }
           }
         }
@@ -34,89 +36,88 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/assets/images/icon_logo.png">
 
-  <!-- Custom Cyber Theme -->
+  <!-- PVCFC Official Corporate Theme -->
   <link rel="stylesheet" href="/static/style.css">
 </head>
-<body class="min-h-screen text-slate-100 flex flex-col justify-between">
+<body class="min-h-screen text-slate-800 flex flex-col justify-between bg-slate-50">
 
-  <!-- TOP HEADER -->
-  <header class="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 px-6 py-2.5">
+  <!-- TOP HEADER (Clean White Corporate Bar) -->
+  <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-40 px-6 py-3">
     <div class="max-w-[1720px] mx-auto flex items-center justify-between gap-4">
       
       <!-- Brand & Logos -->
-      <div class="flex items-center gap-3.5">
-        <!-- Brand Logos Container -->
-        <div class="flex items-center gap-2">
-          <!-- PVCFC Logo -->
-          <div class="h-10 px-2.5 py-1 bg-white/95 rounded-xl shadow-md flex items-center justify-center border border-emerald-500/30 hover:border-emerald-500 transition">
-            <img src="/assets/images/phan_bon_cm.png" alt="Logo Phân Bón Cà Mau" class="h-7 w-auto object-contain">
-          </div>
-          <!-- CTUET Logo -->
-          <div class="h-10 px-2 py-1 bg-white/95 rounded-xl shadow-md flex items-center justify-center border border-cyan-500/30 hover:border-cyan-500 transition">
-            <img src="/assets/images/logo_ctuet.png" alt="Logo CTUET" class="h-7 w-auto object-contain">
+      <div class="flex items-center gap-4">
+        <!-- Logo Images -->
+        <div class="flex items-center gap-3">
+          <a href="https://www.pvcfc.com.vn/" target="_blank" title="Tổng Công Ty Phân Bón Dầu Khí Cà Mau" class="flex items-center">
+            <img src="/assets/images/phan_bon_cm.png" alt="Logo Phân Bón Cà Mau" class="h-10 w-auto object-contain">
+          </a>
+          <div class="h-8 w-px bg-slate-200 hidden sm:block"></div>
+          <div class="flex items-center" title="Trường ĐH Kỹ Thuật - Công Nghệ Cần Thơ">
+            <img src="/assets/images/logo_ctuet.png" alt="Logo CTUET" class="h-9 w-auto object-contain">
           </div>
         </div>
 
-        <div class="h-8 w-px bg-slate-800 hidden sm:block"></div>
+        <div class="h-8 w-px bg-slate-200 hidden md:block"></div>
 
         <div>
           <div class="flex items-center gap-2">
-            <h1 class="text-base font-bold tracking-tight bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">
-              PVCFC AI VISION SYSTEM
+            <h1 class="text-base font-bold tracking-tight text-[#006837]">
+              TỔNG CÔNG TY PHÂN BÓN DẦU KHÍ CÀ MAU (PVCFC)
             </h1>
-            <span class="px-2 py-0.5 text-[10px] font-semibold bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 live-dot"></span>
-              YOLOv8 + ByteTrack
+            <span class="px-2.5 py-0.5 text-[11px] font-semibold bg-emerald-50 border border-emerald-200 text-[#006837] rounded-full flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 live-dot"></span>
+              AI Vision &bull; Dây chuyền đóng bao
             </span>
           </div>
-          <p class="text-xs text-slate-400">Hệ Thống Phân Loại & Đếm Bao Phân Bón Tự Động &bull; CTUET &times; Phân Bón Cà Mau</p>
+          <p class="text-xs text-slate-500">Hệ Thống Phân Loại & Đếm Tự Động Theo Thời Gian Thực &bull; Hợp Tác CTUET &times; PVCFC</p>
         </div>
       </div>
 
       <!-- Center Status: Clock & Source -->
-      <div class="hidden md:flex items-center gap-6 px-4 py-1.5 rounded-xl bg-slate-900/80 border border-slate-800 text-xs">
-        <div class="flex items-center gap-2 text-slate-300">
-          <i data-lucide="clock" class="w-4 h-4 text-cyan-400"></i>
-          <span id="headerClock" class="font-mono font-medium">--:--:--</span>
+      <div class="hidden lg:flex items-center gap-6 px-4 py-2 rounded-full bg-slate-100/80 border border-slate-200 text-xs">
+        <div class="flex items-center gap-2 text-slate-600">
+          <i data-lucide="clock" class="w-4 h-4 text-[#006837]"></i>
+          <span id="headerClock" class="font-mono font-semibold text-slate-800">--:--:--</span>
         </div>
-        <div class="h-3 w-px bg-slate-700"></div>
+        <div class="h-3 w-px bg-slate-300"></div>
         <div class="flex items-center gap-2">
-          <i data-lucide="video" class="w-4 h-4 text-emerald-400"></i>
-          <span class="text-slate-400">Nguồn:</span>
-          <span id="currentSourceBadge" class="font-semibold text-emerald-400">Băng chuyền demo</span>
+          <i data-lucide="video" class="w-4 h-4 text-emerald-600"></i>
+          <span class="text-slate-500">Nguồn:</span>
+          <span id="currentSourceBadge" class="font-semibold text-[#006837]">Băng chuyền demo</span>
         </div>
       </div>
 
-      <!-- Action Buttons -->
+      <!-- Action Buttons (Pill Buttons as seen on pvcfc.com.vn) -->
       <div class="flex items-center gap-2.5">
         <!-- New Order Button -->
-        <button onclick="openModal('orderModal')" class="flex items-center gap-1.5 px-3.5 py-2 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-white text-xs font-semibold rounded-lg shadow-lg shadow-emerald-600/25 transition">
+        <button onclick="openModal('orderModal')" class="btn-pill btn-pill-primary shadow-sm">
           <i data-lucide="plus-circle" class="w-4 h-4"></i>
           <span>Tạo Đơn Hàng</span>
         </button>
 
         <!-- Source Modal Button -->
-        <button onclick="openModal('sourceModal')" class="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-medium rounded-lg transition">
-          <i data-lucide="camera" class="w-4 h-4 text-cyan-400"></i>
+        <button onclick="openModal('sourceModal')" class="btn-pill btn-pill-outline">
+          <i data-lucide="camera" class="w-4 h-4"></i>
           <span>Đổi Nguồn</span>
         </button>
 
         <!-- Line Config Button -->
-        <button onclick="openModal('lineModal')" class="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-medium rounded-lg transition">
-          <i data-lucide="sliders" class="w-4 h-4 text-amber-400"></i>
+        <button onclick="openModal('lineModal')" class="btn-pill btn-pill-ghost">
+          <i data-lucide="sliders" class="w-4 h-4 text-amber-600"></i>
           <span>Vạch Đếm</span>
         </button>
 
         <!-- Export Excel Button -->
-        <button onclick="exportExcelReport()" class="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-emerald-950/40 border border-slate-700 hover:border-emerald-500/50 text-emerald-400 text-xs font-medium rounded-lg transition shadow-sm">
-          <i data-lucide="file-spreadsheet" class="w-4 h-4"></i>
+        <button onclick="exportExcelReport()" class="btn-pill btn-pill-outline hover:border-emerald-600">
+          <i data-lucide="file-spreadsheet" class="w-4 h-4 text-emerald-600"></i>
           <span>Xuất Excel</span>
         </button>
 
         <!-- Model Technical Report PDF Button -->
-        <a href="/api/model_report_pdf" target="_blank" class="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-cyan-950/40 border border-slate-700 hover:border-cyan-500/50 text-cyan-400 text-xs font-medium rounded-lg transition shadow-sm" title="Tải Báo Cáo Kỹ Thuật Chi Tiết Mô Hình AI (PDF)">
-          <i data-lucide="file-text" class="w-4 h-4"></i>
-          <span>Báo Cáo Model (PDF)</span>
+        <a href="/api/model_report_pdf" target="_blank" class="btn-pill btn-pill-ghost" title="Tải Báo Cáo Kỹ Thuật Chi Tiết Mô Hình AI (PDF)">
+          <i data-lucide="file-text" class="w-4 h-4 text-blue-600"></i>
+          <span>Báo Cáo (PDF)</span>
         </a>
       </div>
 
@@ -124,109 +125,109 @@
   </header>
 
   <!-- MAIN CONTAINER -->
-  <main class="max-w-[1720px] mx-auto p-5 space-y-5 flex-1 w-full">
+  <main class="max-w-[1720px] mx-auto p-6 space-y-6 flex-1 w-full">
 
-    <!-- METRICS / KPI CARDS -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- METRICS / KPI CARDS (Inspired by PVCFC 'Giới Thiệu' Grid) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
       
-      <!-- Card 1: Total Counted -->
-      <div class="glass-panel p-4 flex flex-col justify-between border-l-4 border-l-cyan-500 relative overflow-hidden">
+      <!-- Card 1: Total Counted (PVCFC Deep Green Card) -->
+      <div class="card-pvcfc-green p-5 flex flex-col justify-between shadow-sm relative overflow-hidden">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Tổng Số Đã Đếm</span>
-          <div class="w-8 h-8 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center">
-            <i data-lucide="package-check" class="w-4 h-4"></i>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-100">Tổng Số Đã Đếm</span>
+          <div class="w-9 h-9 rounded-full bg-white/15 text-white flex items-center justify-center">
+            <i data-lucide="package-check" class="w-5 h-5"></i>
           </div>
         </div>
-        <div class="mt-2 flex items-baseline gap-2">
-          <span id="metricTotal" class="text-3xl font-extrabold font-mono text-cyan-400">0</span>
-          <span class="text-xs text-slate-400">bao</span>
+        <div class="mt-3 flex items-baseline gap-2">
+          <span id="metricTotal" class="text-4xl font-extrabold font-mono text-white">0</span>
+          <span class="text-sm text-emerald-100 font-medium">bao</span>
         </div>
-        <div class="mt-3 flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-slate-800/80">
-          <span>Tốc độ băng tải:</span>
-          <span id="metricSpeed" class="font-mono font-semibold text-emerald-400">0.0 bao/phút</span>
+        <div class="mt-4 flex items-center justify-between text-xs text-emerald-100 pt-3 border-t border-white/20">
+          <span>Tốc độ đóng bao:</span>
+          <span id="metricSpeed" class="font-mono font-bold text-white bg-white/20 px-2 py-0.5 rounded-full">0.0 bao/phút</span>
         </div>
       </div>
 
-      <!-- Card 2: Urea Bio xanh -->
-      <div class="glass-panel p-4 flex flex-col justify-between border-l-4 border-l-emerald-500 relative">
+      <!-- Card 2: Urea Bio xanh (PVCFC Pale Cream Card) -->
+      <div class="card-pvcfc-cream p-5 flex flex-col justify-between shadow-sm relative">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-semibold uppercase tracking-wider text-emerald-300">Urea Bio Xanh</span>
-          <div class="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-            <i data-lucide="leaf" class="w-4 h-4"></i>
+          <span class="text-xs font-bold uppercase tracking-wider text-[#006837]">Urea Bio Xanh</span>
+          <div class="w-9 h-9 rounded-full bg-[#006837]/10 text-[#006837] flex items-center justify-center">
+            <i data-lucide="leaf" class="w-5 h-5"></i>
           </div>
         </div>
-        <div class="mt-2 flex items-baseline gap-2">
-          <span id="metricBio" class="text-3xl font-extrabold font-mono text-emerald-400">0</span>
-          <span id="targetBioText" class="text-xs text-slate-400">/ -- bao</span>
+        <div class="mt-3 flex items-baseline gap-2">
+          <span id="metricBio" class="text-4xl font-extrabold font-mono text-[#006837]">0</span>
+          <span id="targetBioText" class="text-xs text-slate-500 font-medium">/ -- bao</span>
         </div>
-        <div class="mt-3">
-          <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-            <div id="progBio" class="bg-emerald-500 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 3: NPK 22-5-6 -->
-      <div class="glass-panel p-4 flex flex-col justify-between border-l-4 border-l-amber-500 relative">
-        <div class="flex items-center justify-between">
-          <span class="text-xs font-semibold uppercase tracking-wider text-amber-300">NPK 22-5-6</span>
-          <div class="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center">
-            <i data-lucide="flask-conical" class="w-4 h-4"></i>
-          </div>
-        </div>
-        <div class="mt-2 flex items-baseline gap-2">
-          <span id="metricNPK" class="text-3xl font-extrabold font-mono text-amber-400">0</span>
-          <span id="targetNPKText" class="text-xs text-slate-400">/ -- bao</span>
-        </div>
-        <div class="mt-3">
-          <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-            <div id="progNPK" class="bg-amber-500 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+        <div class="mt-4">
+          <div class="w-full bg-[#006837]/15 rounded-full h-2 overflow-hidden">
+            <div id="progBio" class="bg-[#006837] h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
           </div>
         </div>
       </div>
 
-      <!-- Card 4: Urea hạt đục -->
-      <div class="glass-panel p-4 flex flex-col justify-between border-l-4 border-l-purple-500 relative">
+      <!-- Card 3: NPK 22-5-6 (Clean White Card with Gold Accent) -->
+      <div class="pvcfc-card p-5 flex flex-col justify-between shadow-sm relative border-t-4 border-t-amber-500">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-semibold uppercase tracking-wider text-purple-300">Urea Hạt Đục</span>
-          <div class="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center">
-            <i data-lucide="layers" class="w-4 h-4"></i>
+          <span class="text-xs font-bold uppercase tracking-wider text-amber-700">NPK 22-5-6</span>
+          <div class="w-9 h-9 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center">
+            <i data-lucide="flask-conical" class="w-5 h-5"></i>
           </div>
         </div>
-        <div class="mt-2 flex items-baseline gap-2">
-          <span id="metricDuc" class="text-3xl font-extrabold font-mono text-purple-400">0</span>
-          <span id="targetDucText" class="text-xs text-slate-400">/ -- bao</span>
+        <div class="mt-3 flex items-baseline gap-2">
+          <span id="metricNPK" class="text-4xl font-extrabold font-mono text-amber-600">0</span>
+          <span id="targetNPKText" class="text-xs text-slate-500 font-medium">/ -- bao</span>
         </div>
-        <div class="mt-3">
-          <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-            <div id="progDuc" class="bg-purple-500 h-1.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+        <div class="mt-4">
+          <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
+            <div id="progNPK" class="bg-amber-500 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4: Urea hạt đục (PVCFC Soft Blue Card) -->
+      <div class="card-pvcfc-blue p-5 flex flex-col justify-between shadow-sm relative">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold uppercase tracking-wider text-[#0082c4]">Urea Hạt Đục</span>
+          <div class="w-9 h-9 rounded-full bg-[#0082c4]/10 text-[#0082c4] flex items-center justify-center">
+            <i data-lucide="layers" class="w-5 h-5"></i>
+          </div>
+        </div>
+        <div class="mt-3 flex items-baseline gap-2">
+          <span id="metricDuc" class="text-4xl font-extrabold font-mono text-[#0082c4]">0</span>
+          <span id="targetDucText" class="text-xs text-slate-500 font-medium">/ -- bao</span>
+        </div>
+        <div class="mt-4">
+          <div class="w-full bg-[#0082c4]/15 rounded-full h-2 overflow-hidden">
+            <div id="progDuc" class="bg-[#0082c4] h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
           </div>
         </div>
       </div>
 
     </div>
 
-    <!-- MAIN GRID: Left (Video & Active Order) & Right (Analytics & Orders) -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+    <!-- MAIN GRID: Left (Video & Target Order) & Right (Charts & Orders) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
       
-      <!-- LEFT COLUMN: Live Video Viewport (7 Cols) -->
-      <div class="lg:col-span-7 flex flex-col gap-4">
+      <!-- LEFT COLUMN: Video Viewport & Target Order (7 Cols) -->
+      <div class="lg:col-span-7 flex flex-col gap-5">
         
         <!-- Video Viewport Card -->
-        <div class="glass-panel p-3.5 flex flex-col gap-3">
+        <div class="pvcfc-card p-4 flex flex-col gap-3">
           
           <div class="flex items-center justify-between px-1">
             <div class="flex items-center gap-2">
               <span class="flex h-2.5 w-2.5 relative">
                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
               </span>
-              <span class="text-xs font-bold text-slate-200">LUỒNG GIÁM SÁT BĂNG CHUYỀN THỜI GIAN THỰC</span>
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-700">GIÁM SÁT BĂNG CHUYỀN THỜI GIAN THỰC</span>
             </div>
-            <div class="flex items-center gap-3 text-[11px] text-slate-400 font-mono">
-              <span id="streamFpsBadge" class="text-emerald-400 font-semibold">FPS: 0.0</span>
-              <span class="h-3 w-px bg-slate-700"></span>
-              <span id="streamResBadge">640&times;480</span>
+            <div class="flex items-center gap-3 text-xs text-slate-500 font-mono">
+              <span id="streamFpsBadge" class="text-[#006837] font-bold">FPS: 0.0</span>
+              <span class="h-3 w-px bg-slate-300"></span>
+              <span id="streamResBadge" class="text-slate-600">640&times;480</span>
             </div>
           </div>
 
@@ -235,33 +236,33 @@
             <img id="liveFeedImg" src="/api/video_feed" alt="Live AI Camera Feed" class="w-full h-full object-contain">
             
             <!-- Pause Overlay -->
-            <div id="pausedOverlay" class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm hidden flex-col items-center justify-center gap-2 z-10">
+            <div id="pausedOverlay" class="absolute inset-0 bg-slate-900/85 backdrop-blur-sm hidden flex-col items-center justify-center gap-2 z-10 text-white">
               <i data-lucide="pause-circle" class="w-12 h-12 text-amber-400 animate-pulse"></i>
-              <span class="text-sm font-semibold text-slate-200">BĂNG CHUYỀN TẠM DỪNG GIÁM SÁT</span>
-              <span class="text-xs text-slate-400">Bấm nút Tiếp tục để tiếp tục quá trình đếm</span>
+              <span class="text-sm font-bold">BĂNG CHUYỀN TẠM DỪNG GIÁM SÁT</span>
+              <span class="text-xs text-slate-300">Nhấn nút Tiếp tục để tiếp tục quá trình đếm</span>
             </div>
           </div>
 
           <!-- Video Controls Toolbar -->
           <div class="flex items-center justify-between pt-1 px-1">
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2.5">
               <!-- Play/Pause Toggle -->
-              <button id="btnPause" onclick="togglePauseVideo()" class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-medium rounded-lg text-slate-200 transition">
-                <i id="btnPauseIcon" data-lucide="pause" class="w-3.5 h-3.5 text-amber-400"></i>
+              <button id="btnPause" onclick="togglePauseVideo()" class="btn-pill btn-pill-ghost text-xs">
+                <i id="btnPauseIcon" data-lucide="pause" class="w-3.5 h-3.5 text-amber-600"></i>
                 <span id="btnPauseText">Tạm dừng</span>
               </button>
 
               <!-- Reset Counter -->
-              <button onclick="resetCounters()" class="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800 hover:bg-rose-950/40 border border-slate-700 hover:border-rose-500/50 text-xs font-medium rounded-lg text-rose-400 transition">
+              <button onclick="resetCounters()" class="btn-pill btn-pill-red text-xs">
                 <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
                 <span>Đặt lại số đếm</span>
               </button>
             </div>
 
             <!-- Quick line orientation badge -->
-            <div class="flex items-center gap-2 text-xs text-slate-400">
+            <div class="flex items-center gap-2 text-xs text-slate-500">
               <span class="hidden sm:inline">Vạch đếm:</span>
-              <span id="activeLineBadge" class="font-mono text-cyan-400 bg-cyan-950/40 border border-cyan-800/50 px-2 py-0.5 rounded text-[11px]">
+              <span id="activeLineBadge" class="font-mono text-[#006837] bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full text-xs font-semibold">
                 Ngang (Y=310)
               </span>
             </div>
@@ -270,78 +271,78 @@
         </div>
 
         <!-- Active Target Order Banner -->
-        <div class="glass-panel p-4 flex gap-4 border-l-4 border-l-emerald-500 items-center">
+        <div class="pvcfc-card p-5 flex gap-5 border-l-4 border-l-[#006837] items-center">
           <!-- Fertilizer Bag Image Thumbnail -->
-          <div class="hidden sm:flex flex-col items-center justify-center p-2 rounded-xl bg-slate-950/70 border border-slate-800 w-20 flex-shrink-0 shadow-inner">
-            <img src="/assets/images/dam_cm.png" alt="Bao Phân Bón Cà Mau" class="h-16 w-auto object-contain drop-shadow-[0_4px_8px_rgba(0,0,0,0.5)]">
-            <span class="text-[9px] text-emerald-400 font-mono mt-1 font-semibold">ĐẠM CÀ MAU</span>
+          <div class="hidden sm:flex flex-col items-center justify-center p-2 rounded-xl bg-slate-50 border border-slate-200 w-24 flex-shrink-0 shadow-sm">
+            <img src="/assets/images/dam_cm.png" alt="Bao Phân Bón Cà Mau" class="h-18 w-auto object-contain">
+            <span class="text-[9px] text-[#006837] font-mono mt-1 font-bold">ĐẠM CÀ MAU</span>
           </div>
 
           <div class="flex-1 flex flex-col gap-2.5">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <i data-lucide="shopping-cart" class="w-4 h-4 text-emerald-400"></i>
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Đơn Hàng Mục Tiêu Đang Giám Sát</span>
+                <i data-lucide="shopping-cart" class="w-4 h-4 text-[#006837]"></i>
+                <span class="text-xs font-bold uppercase tracking-wider text-slate-600">Đơn Hàng Mục Tiêu Đang Giám Sát</span>
               </div>
-              <span id="orderStatusBadge" class="px-2.5 py-0.5 text-[11px] font-semibold rounded-full bg-slate-800 text-slate-400 border border-slate-700">
+              <span id="orderStatusBadge" class="px-3 py-0.5 text-xs font-semibold rounded-full bg-slate-100 text-slate-600 border border-slate-200">
                 Chưa chọn đơn
               </span>
             </div>
 
             <div class="flex items-baseline justify-between">
-              <h3 id="activeCustomerName" class="text-base font-semibold text-slate-100">
+              <h3 id="activeCustomerName" class="text-base font-bold text-slate-800">
                 Chưa gán đơn hàng mục tiêu
               </h3>
-              <span id="orderPercentText" class="text-lg font-bold font-mono text-emerald-400">0%</span>
+              <span id="orderPercentText" class="text-xl font-bold font-mono text-[#006837]">0%</span>
             </div>
 
             <!-- Large Progress Bar -->
-            <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
-              <div id="orderTotalProgressBar" class="bg-gradient-to-r from-emerald-500 via-teal-400 to-cyan-500 h-2.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+            <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+              <div id="orderTotalProgressBar" class="bg-[#006837] h-3 rounded-full transition-all duration-500" style="width: 0%"></div>
             </div>
 
-            <div id="targetSummaryItems" class="flex flex-wrap gap-2 text-xs text-slate-400">
-              <span>Chọn một đơn hàng từ danh sách bên phải để kích hoạt đếm theo chỉ tiêu.</span>
+            <div id="targetSummaryItems" class="flex flex-wrap gap-2 text-xs text-slate-500 pt-1">
+              <span>Chọn một đơn hàng từ danh sách bên phải để kích hoạt theo dõi chỉ tiêu đóng bao.</span>
             </div>
           </div>
         </div>
 
       </div>
 
-      <!-- RIGHT COLUMN: Analytics, Charts & Orders (5 Cols) -->
-      <div class="lg:col-span-5 flex flex-col gap-4">
+      <!-- RIGHT COLUMN: Charts & Orders (5 Cols) -->
+      <div class="lg:col-span-5 flex flex-col gap-5">
         
         <!-- Real-time Throughput Chart -->
-        <div class="glass-panel p-4 flex flex-col gap-3">
+        <div class="pvcfc-card p-5 flex flex-col gap-3">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
-              <i data-lucide="activity" class="w-4 h-4 text-emerald-400"></i>
-              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Tốc Độ Băng Tải Thời Gian Thực (Bao / Phút)</h3>
+              <i data-lucide="activity" class="w-4 h-4 text-[#006837]"></i>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">Tốc Độ Băng Tải Thời Gian Thực (Bao / Phút)</h3>
             </div>
-            <span class="text-[11px] font-mono text-emerald-400 font-semibold" id="chartSpeedBadge">0 bao/phút</span>
+            <span class="text-xs font-mono text-[#006837] font-bold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full" id="chartSpeedBadge">0 bao/phút</span>
           </div>
           <div id="throughputChart" class="h-44 w-full"></div>
         </div>
 
         <!-- Product Distribution Breakdown Chart -->
-        <div class="glass-panel p-4 flex flex-col gap-3">
+        <div class="pvcfc-card p-5 flex flex-col gap-3">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
-              <i data-lucide="pie-chart" class="w-4 h-4 text-cyan-400"></i>
-              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Tỷ Lệ Phân Loại Sản Phẩm</h3>
+              <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-700"></i>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">Tỷ Lệ Phân Bố Sản Phẩm</h3>
             </div>
           </div>
           <div id="distributionChart" class="h-44 w-full"></div>
         </div>
 
         <!-- Order Management Table -->
-        <div class="glass-panel p-4 flex flex-col gap-3 flex-1">
+        <div class="pvcfc-card p-5 flex flex-col gap-3 flex-1">
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2">
-              <i data-lucide="clipboard-list" class="w-4 h-4 text-purple-400"></i>
-              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-300">Danh Sách Đơn Hàng (SQLite)</h3>
+              <i data-lucide="clipboard-list" class="w-4 h-4 text-[#006837]"></i>
+              <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">Lệnh Sản Xuất & Đơn Hàng (SQLite)</h3>
             </div>
-            <button onclick="fetchOrders()" class="text-slate-400 hover:text-slate-200 text-xs flex items-center gap-1 transition">
+            <button onclick="fetchOrders()" class="text-slate-500 hover:text-[#006837] text-xs flex items-center gap-1 transition font-medium">
               <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
               <span>Làm mới</span>
             </button>
@@ -349,16 +350,16 @@
 
           <div class="overflow-y-auto max-h-56 pr-1">
             <table class="w-full text-left text-xs">
-              <thead class="text-[11px] text-slate-400 border-b border-slate-800 uppercase font-semibold">
+              <thead class="text-xs text-slate-500 border-b border-slate-200 uppercase font-bold bg-slate-50/70">
                 <tr>
-                  <th class="py-2">Khách Hàng</th>
-                  <th class="py-2">Yêu Cầu</th>
-                  <th class="py-2 text-right">Thao Tác</th>
+                  <th class="py-2.5 px-2">Khách Hàng / Lệnh</th>
+                  <th class="py-2.5 px-2">Yêu Cầu (Bao)</th>
+                  <th class="py-2.5 px-2 text-right">Thao Tác</th>
                 </tr>
               </thead>
-              <tbody id="orderTableBody" class="divide-y divide-slate-800/60 font-medium">
+              <tbody id="orderTableBody" class="divide-y divide-slate-100 font-medium">
                 <tr>
-                  <td colspan="3" class="py-4 text-center text-slate-500">Đang tải dữ liệu đơn hàng...</td>
+                  <td colspan="3" class="py-4 text-center text-slate-400">Đang tải dữ liệu đơn hàng...</td>
                 </tr>
               </tbody>
             </table>
@@ -371,27 +372,31 @@
 
   </main>
 
-  <!-- FOOTER -->
-  <footer class="border-t border-slate-800/80 bg-slate-950/80 text-slate-400 text-xs px-6 py-3.5 mt-4">
-    <div class="max-w-[1720px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div class="flex items-center gap-3">
+  <!-- FOOTER (Matching Official PVCFC Green Footer) -->
+  <footer class="bg-[#004d25] text-white text-xs px-6 py-5 mt-6 border-t-2 border-emerald-400">
+    <div class="max-w-[1720px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex flex-col sm:flex-row items-center gap-4">
         <!-- Partner Logo Badges -->
-        <div class="flex items-center gap-2 bg-white/95 px-2 py-0.5 rounded-lg border border-slate-700 shadow-sm">
-          <img src="/assets/images/phan_bon_cm.png" alt="PVCFC" class="h-4 w-auto object-contain">
-          <span class="text-[10px] text-slate-800 font-bold">PVCFC</span>
+        <div class="flex items-center gap-3">
+          <div class="bg-white px-2.5 py-1 rounded-lg shadow-sm flex items-center justify-center">
+            <img src="/assets/images/phan_bon_cm.png" alt="PVCFC" class="h-6 w-auto object-contain">
+          </div>
+          <div class="bg-white px-2 py-1 rounded-lg shadow-sm flex items-center justify-center">
+            <img src="/assets/images/logo_ctuet.png" alt="CTUET" class="h-6 w-auto object-contain">
+          </div>
         </div>
-        <div class="flex items-center gap-2 bg-white/95 px-2 py-0.5 rounded-lg border border-slate-700 shadow-sm">
-          <img src="/assets/images/logo_ctuet.png" alt="CTUET" class="h-4 w-auto object-contain">
-          <span class="text-[10px] text-slate-800 font-bold">CTUET</span>
+        <div class="text-center sm:text-left">
+          <p class="font-semibold text-white">Tổng Công Ty Phân Bón Dầu Khí Cà Mau (PVCFC) &bull; Đơn vị thành viên của Petrovietnam</p>
+          <p class="text-[11px] text-emerald-200 mt-0.5">Dự án Nghiên cứu & Ứng dụng AI Vision &bull; Hợp tác Trường Đại học Kỹ thuật - Công nghệ Cần Thơ</p>
         </div>
-        <p class="text-[11px] text-slate-400">Dự án Hợp tác Nghiên cứu & Ứng dụng Thị giác máy tính trong Nông nghiệp hiện đại.</p>
       </div>
-      <div class="flex items-center gap-3 text-[11px] text-slate-500 font-mono">
-        <span>YOLOv8 &bull; ByteTrack</span>
+      
+      <div class="flex items-center gap-3 text-xs text-emerald-200 font-mono">
+        <span>YOLOv8 + ByteTrack</span>
         <span>&bull;</span>
-        <span>FastAPI &bull; SQLite</span>
+        <span>FastAPI + SQLite</span>
         <span>&bull;</span>
-        <span class="text-emerald-400 font-medium">Version 2.0 Web</span>
+        <span class="bg-white/20 text-white px-2 py-0.5 rounded-full font-bold">Phiên Bản 2.0</span>
       </div>
     </div>
   </footer>
@@ -400,48 +405,48 @@
 
   <!-- Modal 1: Create Order Modal -->
   <div id="orderModal" class="fixed inset-0 modal-backdrop hidden flex items-center justify-center p-4 z-50">
-    <div class="glass-panel bg-slate-900 border border-slate-700 w-full max-w-md p-6 rounded-2xl shadow-2xl space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-        <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
-          <i data-lucide="plus-circle" class="w-5 h-5 text-emerald-400"></i>
+    <div class="bg-white border border-slate-200 w-full max-w-md p-6 rounded-2xl shadow-xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="text-base font-bold text-[#006837] flex items-center gap-2">
+          <i data-lucide="plus-circle" class="w-5 h-5 text-[#006837]"></i>
           <span>Tạo Đơn Hàng Mới</span>
         </h3>
-        <button onclick="closeModal('orderModal')" class="text-slate-400 hover:text-slate-200">
+        <button onclick="closeModal('orderModal')" class="text-slate-400 hover:text-slate-600">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
-      <div class="space-y-3 text-xs">
+      <div class="space-y-3.5 text-xs">
         <div>
-          <label class="block text-slate-300 font-medium mb-1">Tên khách hàng / Đại lý:</label>
-          <input id="inputCustName" type="text" placeholder="VD: Đại lý Phân Bón Miền Tây" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-emerald-500">
+          <label class="block text-slate-700 font-semibold mb-1">Tên khách hàng / Đại lý phân phối:</label>
+          <input id="inputCustName" type="text" placeholder="VD: Đại lý Phân Bón Miền Tây" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-800 focus:outline-none focus:border-[#006837]">
         </div>
 
-        <div class="space-y-2 pt-2 border-t border-slate-800">
-          <p class="font-semibold text-slate-300">Số lượng mục tiêu từng loại (bao):</p>
+        <div class="space-y-2.5 pt-2 border-t border-slate-100">
+          <p class="font-bold text-slate-700">Số lượng mục tiêu từng loại (bao):</p>
           
           <div class="flex items-center justify-between">
-            <span class="text-emerald-400 font-medium">Urea Bio xanh:</span>
-            <input id="inputQtyBio" type="number" min="0" value="50" class="w-24 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-right text-slate-100 font-mono focus:outline-none focus:border-emerald-500">
+            <span class="text-[#006837] font-semibold">Urea Bio xanh:</span>
+            <input id="inputQtyBio" type="number" min="0" value="50" class="w-24 bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1 text-right text-slate-800 font-mono font-bold focus:outline-none focus:border-[#006837]">
           </div>
 
           <div class="flex items-center justify-between">
-            <span class="text-amber-400 font-medium">NPK 22-5-6:</span>
-            <input id="inputQtyNPK" type="number" min="0" value="30" class="w-24 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-right text-slate-100 font-mono focus:outline-none focus:border-amber-500">
+            <span class="text-amber-600 font-semibold">NPK 22-5-6:</span>
+            <input id="inputQtyNPK" type="number" min="0" value="30" class="w-24 bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1 text-right text-slate-800 font-mono font-bold focus:outline-none focus:border-amber-500">
           </div>
 
           <div class="flex items-center justify-between">
-            <span class="text-purple-400 font-medium">Urea hạt đục:</span>
-            <input id="inputQtyDuc" type="number" min="0" value="20" class="w-24 bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1 text-right text-slate-100 font-mono focus:outline-none focus:border-purple-500">
+            <span class="text-[#0082c4] font-semibold">Urea hạt đục:</span>
+            <input id="inputQtyDuc" type="number" min="0" value="20" class="w-24 bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1 text-right text-slate-800 font-mono font-bold focus:outline-none focus:border-blue-500">
           </div>
         </div>
       </div>
 
-      <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-800">
-        <button onclick="closeModal('orderModal')" class="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-300 transition">
+      <div class="flex items-center justify-end gap-2 pt-3 border-t border-slate-100">
+        <button onclick="closeModal('orderModal')" class="btn-pill btn-pill-ghost text-xs">
           Hủy
         </button>
-        <button onclick="submitNewOrder()" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-xs font-semibold text-white shadow-lg shadow-emerald-600/30 transition">
+        <button onclick="submitNewOrder()" class="btn-pill btn-pill-primary text-xs shadow-md">
           Lưu Đơn Hàng
         </button>
       </div>
@@ -450,41 +455,41 @@
 
   <!-- Modal 2: Change Video Source Modal -->
   <div id="sourceModal" class="fixed inset-0 modal-backdrop hidden flex items-center justify-center p-4 z-50">
-    <div class="glass-panel bg-slate-900 border border-slate-700 w-full max-w-md p-6 rounded-2xl shadow-2xl space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-        <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
-          <i data-lucide="video" class="w-5 h-5 text-cyan-400"></i>
+    <div class="bg-white border border-slate-200 w-full max-w-md p-6 rounded-2xl shadow-xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="text-base font-bold text-[#006837] flex items-center gap-2">
+          <i data-lucide="video" class="w-5 h-5 text-[#006837]"></i>
           <span>Chọn Nguồn Video / Camera</span>
         </h3>
-        <button onclick="closeModal('sourceModal')" class="text-slate-400 hover:text-slate-200">
+        <button onclick="closeModal('sourceModal')" class="text-slate-400 hover:text-slate-600">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
-      <div class="space-y-3 text-xs">
-        <p class="text-slate-400">Chọn nguồn giám sát cho hệ thống AI:</p>
+      <div class="space-y-3.5 text-xs">
+        <p class="text-slate-600">Chọn nguồn giám sát cho hệ thống AI:</p>
 
         <!-- Sample Videos in assets/videos -->
         <div class="space-y-2">
-          <p class="font-semibold text-slate-300">Video mẫu có sẵn:</p>
+          <p class="font-bold text-slate-700">Video mẫu có sẵn:</p>
           <div id="sampleVideoList" class="space-y-1.5">
             <!-- Populated via JS -->
           </div>
         </div>
 
-        <div class="pt-2 border-t border-slate-800 space-y-2">
-          <p class="font-semibold text-slate-300">Hoặc chọn Webcam / Camera trực tiếp:</p>
-          <button onclick="selectSource('0')" class="w-full text-left px-3 py-2 bg-slate-950 hover:bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-between transition">
-            <span class="font-medium text-slate-200">Webcam / Camera cổng USB #0</span>
-            <span class="text-[10px] bg-slate-800 text-cyan-400 px-2 py-0.5 rounded">Live Device</span>
+        <div class="pt-2 border-t border-slate-100 space-y-2">
+          <p class="font-bold text-slate-700">Webcam / Camera trực tiếp:</p>
+          <button onclick="selectSource('0')" class="w-full text-left px-3 py-2 bg-slate-50 hover:bg-emerald-50 border border-slate-200 hover:border-[#006837] rounded-lg flex items-center justify-between transition">
+            <span class="font-semibold text-slate-700">Webcam / Camera cổng USB #0</span>
+            <span class="text-[10px] bg-emerald-100 text-[#006837] font-bold px-2 py-0.5 rounded">Live Device</span>
           </button>
         </div>
 
-        <div class="pt-2 border-t border-slate-800 space-y-1.5">
-          <label class="block font-semibold text-slate-300">Đường dẫn file video hoặc luồng RTSP:</label>
+        <div class="pt-2 border-t border-slate-100 space-y-1.5">
+          <label class="block font-bold text-slate-700">Đường dẫn file video hoặc luồng RTSP:</label>
           <div class="flex gap-2">
-            <input id="inputCustomSource" type="text" placeholder="D:\video.mp4 hoặc rtsp://..." class="flex-1 bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-slate-100 text-xs focus:outline-none focus:border-cyan-500">
-            <button onclick="selectCustomSource()" class="px-3 py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-lg text-xs font-semibold">
+            <input id="inputCustomSource" type="text" placeholder="D:\video.mp4 hoặc rtsp://..." class="flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-slate-800 text-xs focus:outline-none focus:border-[#006837]">
+            <button onclick="selectCustomSource()" class="btn-pill btn-pill-primary text-xs">
               Áp dụng
             </button>
           </div>
@@ -495,25 +500,25 @@
 
   <!-- Modal 3: Counting Line Configuration Modal -->
   <div id="lineModal" class="fixed inset-0 modal-backdrop hidden flex items-center justify-center p-4 z-50">
-    <div class="glass-panel bg-slate-900 border border-slate-700 w-full max-w-md p-6 rounded-2xl shadow-2xl space-y-4">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-        <h3 class="text-base font-bold text-slate-100 flex items-center gap-2">
-          <i data-lucide="sliders" class="w-5 h-5 text-amber-400"></i>
+    <div class="bg-white border border-slate-200 w-full max-w-md p-6 rounded-2xl shadow-xl space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="text-base font-bold text-[#006837] flex items-center gap-2">
+          <i data-lucide="sliders" class="w-5 h-5 text-amber-500"></i>
           <span>Cấu Hình Vạch Đếm Ảo</span>
         </h3>
-        <button onclick="closeModal('lineModal')" class="text-slate-400 hover:text-slate-200">
+        <button onclick="closeModal('lineModal')" class="text-slate-400 hover:text-slate-600">
           <i data-lucide="x" class="w-5 h-5"></i>
         </button>
       </div>
 
       <div class="space-y-4 text-xs">
         <div>
-          <label class="block text-slate-300 font-medium mb-1">Hướng chuyển động của bao trên băng chuyền:</label>
+          <label class="block text-slate-700 font-semibold mb-1">Hướng chuyển động của bao trên băng chuyền:</label>
           <div class="grid grid-cols-2 gap-2">
-            <button id="btnLineHoriz" onclick="setLineOrientation('horizontal')" class="px-3 py-2 rounded-lg border border-emerald-500 bg-emerald-500/10 text-emerald-400 font-semibold flex items-center justify-center gap-1.5">
+            <button id="btnLineHoriz" onclick="setLineOrientation('horizontal')" class="px-3 py-2.5 rounded-lg border-2 border-[#006837] bg-emerald-50 text-[#006837] font-bold flex items-center justify-center gap-1.5 transition">
               <span>Băng chuyền Dọc (Vạch Ngang)</span>
             </button>
-            <button id="btnLineVert" onclick="setLineOrientation('vertical')" class="px-3 py-2 rounded-lg border border-slate-700 bg-slate-950 text-slate-400 font-semibold flex items-center justify-center gap-1.5">
+            <button id="btnLineVert" onclick="setLineOrientation('vertical')" class="px-3 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-600 font-semibold flex items-center justify-center gap-1.5 transition">
               <span>Băng chuyền Ngang (Vạch Dọc)</span>
             </button>
           </div>
@@ -521,15 +526,15 @@
 
         <div>
           <div class="flex items-center justify-between mb-1">
-            <span class="text-slate-300 font-medium">Vị trí toạ độ vạch đếm:</span>
-            <span id="lineCoordDisplay" class="font-mono text-cyan-400 font-bold">310 px</span>
+            <span class="text-slate-700 font-semibold">Vị trí toạ độ vạch đếm:</span>
+            <span id="lineCoordDisplay" class="font-mono text-[#006837] font-bold text-sm">310 px</span>
           </div>
-          <input id="lineCoordSlider" type="range" min="50" max="600" value="310" oninput="updateLineSlider(this.value)" class="w-full accent-cyan-400">
+          <input id="lineCoordSlider" type="range" min="50" max="600" value="310" oninput="updateLineSlider(this.value)" class="w-full accent-[#006837]">
         </div>
       </div>
 
-      <div class="flex justify-end pt-3 border-t border-slate-800">
-        <button onclick="applyLineConfig()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-semibold shadow-lg shadow-emerald-600/30 transition">
+      <div class="flex justify-end pt-3 border-t border-slate-100">
+        <button onclick="applyLineConfig()" class="btn-pill btn-pill-primary text-xs shadow-md">
           Lưu Cấu Hình
         </button>
       </div>
